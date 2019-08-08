@@ -16,9 +16,9 @@ class DayController extends Controller
         $model->id = 60;
         $model->title = date("m.d.Y");
         $model->weekday = date("w");
-        $model->working = false;
         $model->working = true;
-        /* $model->activity_id = 5; */
+        $model->weekend = false;
+        $model->activity_id = [1, 5];
 
         return $this->render('view', [
             'model' => $model,

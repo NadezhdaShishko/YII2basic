@@ -3,5 +3,8 @@
 
 var_dump($model->attributes);
 foreach ($model as $attribute => $value){
-    echo $model->getAttributeLabel($attribute). ": " .$value. "</br>";
+    if(!is_array($value))
+        echo $model->getAttributeLabel($attribute). ": " .$value. "</br>";
+    else
+        echo $model->getAttributeLabel($attribute). ": " .implode(', ', $value). "</br>";
 };

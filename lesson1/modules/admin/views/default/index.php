@@ -5,7 +5,7 @@
         The action belongs to the controller "<?= get_class($this->context) ?>"
         in the "<?= $this->context->module->id ?>" module.
     </p>
-    <code><?=Yii::$app->sessionComponent->getPreviousPage()?></code>
+
     <code><?=Yii::$app->messenger->display('Используем компонент messenger')?></code>
 
     <p>

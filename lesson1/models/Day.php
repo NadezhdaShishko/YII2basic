@@ -13,6 +13,7 @@ class Day extends Model
     public $weekday;
     public $working;
     public $weekend;
+    public $activity_id;
 
     public function attributeLabels()
     {
@@ -22,7 +23,7 @@ class Day extends Model
             'weekday' => 'День недели',
             'working' => 'Рабочий день',
             'weekend' => 'Выходной',
-            'activity_id' => 'id события',
+            'activity_id' => 'id событий',
         ];
     }
 
