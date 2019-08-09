@@ -3,14 +3,41 @@
 
 namespace app\controllers;
 
+use Yii;
 use app\models\Activity;
 use yii\web\Controller;
 
 class ActivityController extends Controller
 {
-    public function actionProfile()
+
+    public function actionIndex()
     {
-        echo 'Мы шли-шли и пришли';
+        $model = new Activity();
+
+//        if ($model->load(Yii::$app->request->post())) {
+//            if ($model->validate()) {
+//                // form inputs are valid, do something here
+//                var_dump($model);
+//            }
+//        }
+
+        return $this->render('index', [
+            'model' => $model,
+        ]);
+    }
+
+    public function actionSubmit()
+    {
+        $model = new Activity();
+
+        if ($model->load(Yii::$app->request->post())) {
+            if ($model->validate()) {
+                // form inputs are valid, do something here
+                return $this->refresh();
+//                var_dump($model);
+            }
+        }
+        return $this->render('submit');
     }
 
     public function actionView() {
@@ -24,13 +51,6 @@ class ActivityController extends Controller
         $model->author_id = 4;
         $model->cycle = true;
         $model->main = true;
-
-        $model->attributes = [
-            'id' => 6,
-            'title' => 6,
-            'body' => 6,
-            'end_date' => 6,
-            ];
 
         return $this->render('view', [
             'model' => $model,
