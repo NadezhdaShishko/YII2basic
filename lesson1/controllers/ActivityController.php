@@ -1,40 +1,59 @@
 <?php
 
-
 namespace app\controllers;
 
 use app\models\Activity;
-use yii\web\Controller;
+use Yii;
 
-class ActivityController extends Controller
+class ActivityController extends \yii\web\Controller
 {
-    public function actionProfile()
+    public function actionCreate()
     {
-        echo 'Мы шли-шли и пришли';
+        $model = new Activity();
+        return $this->render('create', [
+        'model' => $model,
+    ]);
     }
 
-    public function actionView() {
+    public function actionDelete()
+    {
+        return $this->render('delete');
+    }
 
+    public function actionIndex()
+    {
+        return $this->render('index');
+    }
+
+    public function actionSubmit()
+    {
         $model = new Activity();
-        $model->id = 5;
-        $model->title = 'Пятая активность';
-        $model->body = 'Тело пятой активности';
-        $model->start_date = time();
-        $model->end_date = time()+24*60*60;
-        $model->author_id = 4;
-        $model->cycle = true;
-        $model->main = true;
 
-        $model->attributes = [
-            'id' => 6,
-            'title' => 6,
-            'body' => 6,
-            'end_date' => 6,
-            ];
+        if ($model->load(Yii::$app->request->post())) {
+            if ($model->validate()) {
+                // form inputs are valid, do something here
+                return $this->refresh();
+            }
+        }
+        return $this->render('submit', [
+            'model' => $model,
+        ]);
+    }
+
+    public function actionUpdate($id)
+    {
+        $model = new Activity();
+        $model->id = $id;
+        return $this->render('update');
+    }
+
+    public function actionView()
+    {
+        $model = new Activity();
 
         return $this->render('view', [
             'model' => $model,
         ]);
-
     }
+
 }
