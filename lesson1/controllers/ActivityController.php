@@ -1,29 +1,28 @@
 <?php
 
-
 namespace app\controllers;
 
-use Yii;
 use app\models\Activity;
-use yii\web\Controller;
+use Yii;
 
-class ActivityController extends Controller
+class ActivityController extends \yii\web\Controller
 {
+    public function actionCreate()
+    {
+        $model = new Activity();
+        return $this->render('create', [
+        'model' => $model,
+    ]);
+    }
+
+    public function actionDelete()
+    {
+        return $this->render('delete');
+    }
 
     public function actionIndex()
     {
-        $model = new Activity();
-
-//        if ($model->load(Yii::$app->request->post())) {
-//            if ($model->validate()) {
-//                // form inputs are valid, do something here
-//                var_dump($model);
-//            }
-//        }
-
-        return $this->render('index', [
-            'model' => $model,
-        ]);
+        return $this->render('index');
     }
 
     public function actionSubmit()
@@ -34,27 +33,27 @@ class ActivityController extends Controller
             if ($model->validate()) {
                 // form inputs are valid, do something here
                 return $this->refresh();
-//                var_dump($model);
             }
         }
-        return $this->render('submit');
+        return $this->render('submit', [
+            'model' => $model,
+        ]);
     }
 
-    public function actionView() {
-
+    public function actionUpdate($id)
+    {
         $model = new Activity();
-        $model->id = 5;
-        $model->title = 'Пятая активность';
-        $model->body = 'Тело пятой активности';
-        $model->start_date = time();
-        $model->end_date = time()+24*60*60;
-        $model->author_id = 4;
-        $model->cycle = true;
-        $model->main = true;
+        $model->id = $id;
+        return $this->render('update');
+    }
+
+    public function actionView()
+    {
+        $model = new Activity();
 
         return $this->render('view', [
             'model' => $model,
         ]);
-
     }
+
 }
