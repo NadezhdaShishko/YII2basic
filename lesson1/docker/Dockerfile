@@ -10,7 +10,7 @@ RUN a2enmod rewrite
 
 #Инструкция ENV задает переменные окружения с именем <key> и значением <value>.
 #Это значение будет находиться в окружении всех команд потомков Dockerfile и могут быть использованы как обычные переменные окружения.
-ENV TZ=Europe/Moscow
+ENV TZ=Europe/Samara
 
 #указываем временную зону для нашего образа.
 RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
