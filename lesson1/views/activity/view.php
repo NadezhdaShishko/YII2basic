@@ -1,28 +1,45 @@
 <?php
-/** @var \app\models\Activity $model */
-/* @var $this yii\web\View */
-
-$this->title = 'ActivityView';
-$this->params['breadcrumbs'][] = $this->title;
 
 use yii\helpers\Html;
-?>
+use yii\widgets\DetailView;
 
+/* @var $this yii\web\View */
+/* @var $model app\models\Activity */
+
+$this->title = $model->title;
+$this->params['breadcrumbs'][] = ['label' => 'Activities', 'url' => ['index']];
+$this->params['breadcrumbs'][] = $this->title;
+\yii\web\YiiAsset::register($this);
+?>
 <div class="activity-view">
+
     <h1><?= Html::encode($this->title) ?></h1>
+
     <p>
-        You may change the content of this page by modifying
-        the file <code><?= __FILE__; ?></code>.
+        <?= Html::a('Update', ['update', 'id' => $model->id], ['class' => 'btn btn-primary']) ?>
+        <?= Html::a('Delete', ['delete', 'id' => $model->id], [
+            'class' => 'btn btn-danger',
+            'data' => [
+                'confirm' => 'Are you sure you want to delete this item?',
+                'method' => 'post',
+            ],
+        ]) ?>
     </p>
 
-    <div>
+    <?= DetailView::widget([
+        'model' => $model,
+        'attributes' => [
+            'id',
+            'title',
+            'body:ntext',
+            'start_date',
+            'end_date',
+            'author_id',
+            'cycle',
+            'main',
+            'created_at',
+            'updated_at',
+        ],
+    ]) ?>
 
-        <?php var_dump($model->attributes); ?>
-
-        <?php foreach ($model as $attribute => $value){
-            echo $model->getAttributeLabel($attribute). ": " .$value. "</br>";
-        }; ?>
-    </div>
 </div>
-
-
