@@ -18,4 +18,8 @@ class SessionComponent extends Component
         return $previousPage;
     }
 
+    public function getCurrentPage()
+    {
+        return $_SERVER['REQUEST_URI'];
+    }
 }
