@@ -28,12 +28,43 @@ $this->params['breadcrumbs'][] = $this->title;
 
             'id',
             'title',
-            'body:ntext',
-            'start_date',
-            'end_date',
+            'body',
+            [
+                'attribute' => 'start_date',
+                'filter' => \kartik\date\DatePicker::widget([
+                    'model' => $searchModel,
+                    'attribute' => 'start_date',
+                    'language' => 'ru',
+                    'pluginOptions' => [
+                        'autoclose' => true,
+                        'todayHighlight' => true,
+                        'format' => 'dd.mm.yyyy',
+                    ]
+                ]),
+                'value' => function (\app\models\Activity $model) {
+                    return Yii::$app->formatter->asDate($model->start_date, 'php:d.m.Y');
+                }
+            ],
+//            [
+//                'attribute' => 'end_date',
+//                'filter' => \kartik\date\DatePicker::widget([
+//                    'model' => $searchModel,
+//                    'attribute' => 'end_date',
+//                    'language' => 'ru',
+//                    'pluginOptions' => [
+//                        'autoclose' => true,
+//                        'todayHighlight' => true,
+//                        'format' => 'dd.mm.yyyy',
+//                    ]
+//                ]),
+//                'value' => function (\app\models\Activity $model) {
+//                    return Yii::$app->formatter->asDate($model->end_date, 'php:d.m.Y');
+//                }
+//            ],
+            'end_date:datetime',
             //'author_id',
-            //'cycle',
-            //'main',
+            'cycle:boolean',
+            'main:boolean',
             //'created_at',
             //'updated_at',
 

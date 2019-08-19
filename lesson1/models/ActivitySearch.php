@@ -11,14 +11,18 @@ use app\models\Activity;
  */
 class ActivitySearch extends Activity
 {
+    public $authorEmail;
+
     /**
      * {@inheritdoc}
      */
     public function rules()
     {
         return [
-            [['id', 'start_date', 'end_date', 'author_id', 'cycle', 'main', 'created_at', 'updated_at'], 'integer'],
-            [['title', 'body'], 'safe'],
+            [['id', 'author_id',], 'integer'],
+            [['start_date', 'end_date'], 'date', 'format' => 'php:d.m.Y'],
+            [['cycle', 'main',], 'boolean'],
+            [['authorEmail',], 'string'],
         ];
     }
 
@@ -41,11 +45,15 @@ class ActivitySearch extends Activity
     public function search($params)
     {
         $query = Activity::find();
+//        ->joinWith('author as author');
 
         // add conditions that should always apply here
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
+            'pagination' => [
+                'pageSize' => 10,
+                ]
         ]);
 
         $this->load($params);
@@ -56,16 +64,37 @@ class ActivitySearch extends Activity
             return $dataProvider;
         }
 
+        if (!empty($this->start_date)) {
+            $dayStart = \Yii::$app->formatter->asTimestamp($this->start_date . ' 00:00:00');
+            $dayStop = \Yii::$app->formatter->asTimestamp($this->start_date . ' 23:59:59');
+            $query->andFilterWhere([
+                'between',
+                self::tableName() . '.start_date',
+                $dayStart,
+                $dayStop,
+            ]);
+        }
+
+        if (!empty($this->end_date)) {
+            $dayStart = \Yii::$app->formatter->asTimestamp($this->end_date . ' 00:00:00');
+            $dayStop = \Yii::$app->formatter->asTimestamp($this->end_date . ' 23:59:59');
+            $query->andFilterWhere([
+                'between',
+                self::tableName() . '.end_date',
+                $dayStart,
+                $dayStop,
+            ]);
+        }
+
+        if (!empty($this->authorEmail)) {
+            $query->andWhere(['like', 'author.email', $this->authorEmail]);
+        }
         // grid filtering conditions
         $query->andFilterWhere([
             'id' => $this->id,
-            'start_date' => $this->start_date,
-            'end_date' => $this->end_date,
             'author_id' => $this->author_id,
             'cycle' => $this->cycle,
             'main' => $this->main,
-            'created_at' => $this->created_at,
-            'updated_at' => $this->updated_at,
         ]);
 
         $query->andFilterWhere(['like', 'title', $this->title])

@@ -16,15 +16,34 @@ use yii\widgets\ActiveForm;
 
     <?= $form->field($model, 'body')->textarea(['rows' => 6]) ?>
 
-    <?= $form->field($model, 'start_date')->textInput() ?>
+    <?= $form->field($model, 'start_date')->widget(\kartik\date\DatePicker::class, [
+        'options' => [
+            'placeholder' => 'Дата начала',
+            'value' => !$model->isNewRecord ? Yii::$app->formatter->asDate($model->start_date, 'php:d.m.Y') : null,
+        ],
+        'pluginOptions' => [
+            'autoclose' => true,
+            'format' => 'dd.mm.yyyy',
+        ]
+    ]); ?>
 
-    <?= $form->field($model, 'end_date')->textInput() ?>
+    <?= $form->field($model, 'end_date')->widget(\kartik\date\DatePicker::class, [
+        'options' => [
+            'placeholder' => 'Дата окончания',
+            'value' => !$model->isNewRecord ? Yii::$app->formatter->asDate($model->end_date, 'php:d.m.Y') : null,
+        ],
+        'pluginOptions' => [
+            'autoclose' => true,
+            'format' => 'dd.mm.yyyy',
+        ]
+    ]); ?>
+
 
     <?= $form->field($model, 'author_id')->textInput() ?>
 
-    <?= $form->field($model, 'cycle')->textInput() ?>
+    <?= $form->field($model, 'cycle')->checkbox() ?>
 
-    <?= $form->field($model, 'main')->textInput() ?>
+    <?= $form->field($model, 'main')->checkbox() ?>
 
     <div class="form-group">
         <?= Html::submitButton('Save', ['class' => 'btn btn-success']) ?>

@@ -31,14 +31,29 @@ $this->params['breadcrumbs'][] = $this->title;
         'attributes' => [
             'id',
             'title',
-            'body:ntext',
-            'start_date',
-            'end_date',
-            'author_id',
-            'cycle',
-            'main',
-            'created_at',
-            'updated_at',
+            'body',
+            [
+                'attribute'=>'start_date',
+                'label'=>'Дата начала активности',
+                'value'=>function($model) {
+                    return Yii::$app->formatter->asDatetime($model->start_date);
+                }
+            ],
+//            [
+//                'attribute'=>'end_date',
+//                'label'=>'Дата окончания активности',
+//                'value'=>function($model) {
+//                    return Yii::$app->formatter->asDatetime($model->end_date);
+//                }
+//            ],
+            'end_date:datetime',
+            [
+                'label'=>'Повторяется',
+                'value'=>function($model){
+                    return Yii::$app->formatter->asBoolean($model->cycle);
+                }
+            ],
+            'main:boolean',
         ],
     ]) ?>
 

@@ -70,7 +70,10 @@ AppAsset::register($this);
             'links' => isset($this->params['breadcrumbs']) ? $this->params['breadcrumbs'] : [],
         ]) ?>
         <?= Alert::widget() ?>
-        <?= Yii::$app->sessionComponent->getPreviousPage() ?>
+        <code>
+            <?php echo \Yii::$app->sessionComponent->getCurrentPage() ?>
+        </code>
+
         <?= $content ?>
     </div>
 </div>
