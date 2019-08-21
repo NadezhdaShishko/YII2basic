@@ -25,7 +25,6 @@ $this->params['breadcrumbs'][] = $this->title;
         'filterModel' => $searchModel,
         'columns' => [
             ['class' => 'yii\grid\SerialColumn'],
-
             'id',
             'title',
             'body',
@@ -45,28 +44,70 @@ $this->params['breadcrumbs'][] = $this->title;
                     return Yii::$app->formatter->asDate($model->start_date, 'php:d.m.Y');
                 }
             ],
+            [
+                'attribute' => 'end_date',
+                'filter' => \kartik\date\DatePicker::widget([
+                    'model' => $searchModel,
+                    'attribute' => 'end_date',
+                    'language' => 'ru',
+                    'pluginOptions' => [
+                        'autoclose' => true,
+                        'todayHighlight' => true,
+                        'format' => 'dd.mm.yyyy',
+                    ]
+                ]),
+                'value' => function (\app\models\Activity $model) {
+                    return Yii::$app->formatter->asDate($model->end_date, 'php:d.m.Y');
+                }
+            ],
+//            'end_date:datetime',
 //            [
-//                'attribute' => 'end_date',
-//                'filter' => \kartik\date\DatePicker::widget([
-//                    'model' => $searchModel,
-//                    'attribute' => 'end_date',
-//                    'language' => 'ru',
-//                    'pluginOptions' => [
-//                        'autoclose' => true,
-//                        'todayHighlight' => true,
-//                        'format' => 'dd.mm.yyyy',
-//                    ]
-//                ]),
+//                'attribute' => 'authorEmail',
 //                'value' => function (\app\models\Activity $model) {
-//                    return Yii::$app->formatter->asDate($model->end_date, 'php:d.m.Y');
+//                    return $model->author->email.' '.$model->author->id;
 //                }
 //            ],
-            'end_date:datetime',
-            //'author_id',
+            [
+                'attribute' => 'username',
+                'value' => function (\app\models\Activity $model) {
+                    return $model->author->username;
+                }
+            ],
+//            'author_id',
             'cycle:boolean',
             'main:boolean',
-            //'created_at',
-            //'updated_at',
+            [
+                'attribute' => 'created_at',
+                'filter' => \kartik\date\DatePicker::widget([
+                    'model' => $searchModel,
+                    'attribute' => 'created_at',
+                    'language' => 'ru',
+                    'pluginOptions' => [
+                        'autoclose' => true,
+                        'todayHighlight' => true,
+                        'format' => 'dd.mm.yyyy',
+                    ]
+                ]),
+                'value' => function ($model) {
+                    return Yii::$app->formatter->asDate($model->created_at, 'php:d.m.Y');
+                }
+            ],
+            [
+                'attribute' => 'updated_at',
+                'filter' => \kartik\date\DatePicker::widget([
+                    'model' => $searchModel,
+                    'attribute' => 'updated_at',
+                    'language' => 'ru',
+                    'pluginOptions' => [
+                        'autoclose' => true,
+                        'todayHighlight' => true,
+                        'format' => 'dd.mm.yyyy',
+                    ]
+                ]),
+                'value' => function ($model) {
+                    return Yii::$app->formatter->asDate($model->updated_at, 'php:d.m.Y');
+                }
+            ],
 
             ['class' => 'yii\grid\ActionColumn'],
         ],

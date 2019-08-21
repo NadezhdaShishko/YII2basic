@@ -29,7 +29,7 @@ $this->params['breadcrumbs'][] = $this->title;
     <?= DetailView::widget([
         'model' => $model,
         'attributes' => [
-            'id',
+            'author.email',
             'title',
             'body',
             [
@@ -39,14 +39,14 @@ $this->params['breadcrumbs'][] = $this->title;
                     return Yii::$app->formatter->asDatetime($model->start_date);
                 }
             ],
-//            [
-//                'attribute'=>'end_date',
-//                'label'=>'Дата окончания активности',
-//                'value'=>function($model) {
-//                    return Yii::$app->formatter->asDatetime($model->end_date);
-//                }
-//            ],
-            'end_date:datetime',
+            [
+                'attribute'=>'end_date',
+                'label'=>'Дата окончания активности',
+                'value'=>function($model) {
+                    return Yii::$app->formatter->asDatetime($model->end_date);
+                }
+            ],
+//            'end_date:datetime',
             [
                 'label'=>'Повторяется',
                 'value'=>function($model){

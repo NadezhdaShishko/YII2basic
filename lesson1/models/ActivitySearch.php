@@ -12,6 +12,7 @@ use app\models\Activity;
 class ActivitySearch extends Activity
 {
     public $authorEmail;
+    public $username;
 
     /**
      * {@inheritdoc}
@@ -21,8 +22,9 @@ class ActivitySearch extends Activity
         return [
             [['id', 'author_id',], 'integer'],
             [['start_date', 'end_date'], 'date', 'format' => 'php:d.m.Y'],
+            [['created_at', 'updated_at'], 'date', 'format' => 'php:d.m.Y'],
             [['cycle', 'main',], 'boolean'],
-            [['authorEmail',], 'string'],
+            [['title', 'body', 'authorEmail', 'username'], 'string'],
         ];
     }
 
@@ -44,16 +46,18 @@ class ActivitySearch extends Activity
      */
     public function search($params)
     {
-        $query = Activity::find();
-//        ->joinWith('author as author');
+        $query = Activity::find()->joinWith('author as author');
 
         // add conditions that should always apply here
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
             'pagination' => [
-                'pageSize' => 10,
-                ]
+                'pageSize' => 5,
+            ],
+            'sort' => [
+                'defaultOrder' => ['created_at' => SORT_DESC],
+            ],
         ]);
 
         $this->load($params);
@@ -89,6 +93,11 @@ class ActivitySearch extends Activity
         if (!empty($this->authorEmail)) {
             $query->andWhere(['like', 'author.email', $this->authorEmail]);
         }
+
+        if (!empty($this->username)) {
+            $query->andWhere(['like', 'author.username', $this->username]);
+        }
+
         // grid filtering conditions
         $query->andFilterWhere([
             'id' => $this->id,

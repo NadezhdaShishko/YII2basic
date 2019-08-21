@@ -49,9 +49,10 @@ class Activity extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['title', 'body', 'start_date', 'end_date'], 'required'],
+            [['title', 'body', 'start_date', 'end_date', 'author_id'], 'required'],
             [['cycle', 'main'], 'boolean'],
             [['author_id',], 'integer'],
+            [['end_date'], 'validateEndDate'],
             [['start_date', 'end_date'], 'date', 'format' => 'php:d.m.Y'],
             [['title', 'body'], 'string', 'max' => 255],
             [['author_id'], 'exist', 'skipOnError' => true, 'targetClass' => User::class, 'targetAttribute' => ['author_id' => 'id']],
@@ -108,7 +109,7 @@ class Activity extends \yii\db\ActiveRecord
 
     public function getAuthor()
     {
-        $this->hasOne(User::class, ['id' => 'author_id']);
+        return $this->hasOne(User::class, ['id' =>'author_id']);
     }
 
     /**
