@@ -4,7 +4,7 @@ use yii\helpers\Html;
 use yii\grid\GridView;
 
 /* @var $this yii\web\View */
-/* @var $searchModel app\models\UserSearch */
+/* @var $searchModel app\modules\admin\models\UserSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
 $this->title = 'Users';
@@ -28,15 +28,6 @@ $this->params['breadcrumbs'][] = $this->title;
 
             'id',
             'username',
-<<<<<<< HEAD
-            'auth_key',
-            'password_hash',
-            'password_reset_token',
-            //'email:email',
-            //'status',
-            //'created_at',
-            //'updated_at',
-=======
 //            'auth_key',
 //            'password_hash',
 //            'password_reset_token',
@@ -74,7 +65,6 @@ $this->params['breadcrumbs'][] = $this->title;
                     return Yii::$app->formatter->asDate($model->updated_at, 'php:d.m.Y');
                 }
             ],
->>>>>>> lesson6
 
             ['class' => 'yii\grid\ActionColumn'],
         ],

@@ -4,7 +4,7 @@ use yii\helpers\Html;
 use yii\grid\GridView;
 
 /* @var $this yii\web\View */
-/* @var $searchModel app\models\ActivitySearch */
+/* @var $searchModel app\modules\admin\models\ActivitySearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
 $this->title = 'Activities';
@@ -40,7 +40,7 @@ $this->params['breadcrumbs'][] = $this->title;
                         'format' => 'dd.mm.yyyy',
                     ]
                 ]),
-                'value' => function (\app\models\Activity $model) {
+                'value' => function (\app\modules\admin\models\Activity $model) {
                     return Yii::$app->formatter->asDate($model->start_date, 'php:d.m.Y');
                 }
             ],
@@ -56,20 +56,20 @@ $this->params['breadcrumbs'][] = $this->title;
                         'format' => 'dd.mm.yyyy',
                     ]
                 ]),
-                'value' => function (\app\models\Activity $model) {
+                'value' => function (\app\modules\admin\models\Activity $model) {
                     return Yii::$app->formatter->asDate($model->end_date, 'php:d.m.Y');
                 }
             ],
 //            'end_date:datetime',
 //            [
 //                'attribute' => 'authorEmail',
-//                'value' => function (\app\models\Activity $model) {
+//                'value' => function (\app\modules\admin\models\Activity $model) {
 //                    return $model->author->email.' '.$model->author->id;
 //                }
 //            ],
             [
                 'attribute' => 'username',
-                'value' => function (\app\models\Activity $model) {
+                'value' => function (\app\modules\admin\models\Activity $model) {
                     return $model->author->username;
                 }
             ],

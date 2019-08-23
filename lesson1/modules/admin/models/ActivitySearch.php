@@ -1,13 +1,13 @@
 <?php
 
-namespace app\models;
+namespace app\modules\admin\models;
 
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
-use app\models\Activity;
+use app\modules\admin\models\Activity;
 
 /**
- * ActivitySearch represents the model behind the search form of `app\models\Activity`.
+ * ActivitySearch represents the model behind the search form of `app\modules\admin\models\Activity`.
  */
 class ActivitySearch extends Activity
 {

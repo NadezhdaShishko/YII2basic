@@ -8,6 +8,7 @@ use yii\helpers\Html;
 use yii\bootstrap\Nav;
 use yii\bootstrap\NavBar;
 use yii\widgets\Breadcrumbs;
+use yii\helpers\Url;
 use app\assets\AppAsset;
 
 AppAsset::register($this);
@@ -20,7 +21,7 @@ AppAsset::register($this);
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <?php $this->registerCsrfMetaTags() ?>
-    <title><?= Html::encode($this->title) ?></title>
+    <title><?= Html::encode($this->title) ?> | Панель управления </title>
     <?php $this->head() ?>
 </head>
 <body>
@@ -29,34 +30,33 @@ AppAsset::register($this);
 <div class="wrap">
     <?php
     NavBar::begin([
-        'brandLabel' => Yii::$app->name,
-        'brandUrl' => Yii::$app->homeUrl,
+        'brandLabel' => 'Панель управления',
+        'brandUrl' => Url::to(['/admin/default/index']),
         'options' => [
             'class' => 'navbar-inverse navbar-fixed-top',
         ],
     ]);
 
     $menuItems = [
-        ['label' => 'Мои активности', 'url' => ['/activity/index']],
-        ['label' => 'Home', 'url' => ['/site/index']],
-        ['label' => 'About', 'url' => ['/site/about']],
-        ['label' => 'Hello-World', 'url' => ['/hello/world']],
-        ['label' => 'Contact', 'url' => ['/site/contact']],
+        ['label' => 'Активности', 'url' => ['/admin/activity/index']],
+        ['label' => 'Пользователи', 'url' => ['/admin/user/index']],
+        ['label' => 'Календарь', 'url' => ['/admin/calendar/index']],
     ];
 
 
     if (Yii::$app->user->isGuest) {
-        $menuItems[] = ['label' => 'Signup', 'url' => ['/site/signup']];
-        $menuItems[] = ['label' => 'Login', 'url' => ['/site/login']];
+        $menuItems[] = ['label' => 'Signup', 'url' => ['/admin/auth/signup']];
+        $menuItems[] = ['label' => 'Login', 'url' => ['/admin/auth/login']];
     } else {
-        $menuItems[] = '<li>'
-            . Html::beginForm(['/site/logout'], 'post')
-            . Html::submitButton(
-                'Logout (' . Yii::$app->user->identity->username . ')',
-                ['class' => 'btn btn-link logout']
-            )
-            . Html::endForm()
-            . '</li>';
+        $menuItems[] = ['label' => 'Выйти', 'url' => ['/admin/auth/logout']];
+//            '<li>'
+//            . Html::beginForm(['/site/logout'], 'post')
+//            . Html::submitButton(
+//                'Logout (' . Yii::$app->user->identity->username . ')',
+//                ['class' => 'btn btn-link logout']
+//            )
+//            . Html::endForm()
+//            . '</li>';
     }
 
     echo Nav::widget([
@@ -78,17 +78,17 @@ AppAsset::register($this);
 
         <?= $content ?>
     </div>
-</div>
-
-<footer class="footer">
-    <div class="container">
-        <p class="pull-left">&copy; My Company <?= date('Y') ?></p>
-
-        <p class="pull-right"><?= Yii::powered() ?></p>
     </div>
-</footer>
 
-<?php $this->endBody() ?>
+    <footer class="footer">
+        <div class="container">
+            <p class="pull-left">&copy; My Company <?= date('Y') ?></p>
+
+            <p class="pull-right"><?= Yii::powered() ?></p>
+        </div>
+    </footer>
+
+    <?php $this->endBody() ?>
 </body>
 </html>
 <?php $this->endPage() ?>

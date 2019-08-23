@@ -1,10 +1,10 @@
 <?php
 
-namespace app\controllers;
+namespace app\modules\admin\controllers;
 
 use Yii;
-use app\models\Activity;
-use app\models\ActivitySearch;
+use app\modules\admin\models\Activity;
+use app\modules\admin\models\ActivitySearch;
 use yii\filters\AccessControl;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
@@ -34,7 +34,7 @@ class ActivityController extends Controller
                     [
                         'actions' => ['index', 'create', 'update', 'view', 'delete'],
                         'allow' => true,
-                        'roles' => ['@', 'admin'],
+                        'roles' => ['admin'],
                     ],
                 ],
             ],
