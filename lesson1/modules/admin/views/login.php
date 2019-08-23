@@ -1,23 +1,45 @@
 <?php
-/*
- * View-шаблон, файл modules/admin/views/auth/login.php
- */
+
+/* @var $this yii\web\View */
+/* @var $form yii\bootstrap\ActiveForm */
+/* @var $model app\modules\admin\models\LoginForm */
+
 use yii\helpers\Html;
-use yii\widgets\ActiveForm;
+use yii\bootstrap\ActiveForm;
+use yii\helpers\Url;
 
 $this->title = 'Аутентификация';
+$this->params['breadcrumbs'][] = $this->title;
 ?>
+<div class="site-login">
+    <h1><?= Html::encode($this->title) ?></h1>
 
-<div class="container">
-    <?php
-    $form = ActiveForm::begin();
-    ?>
-    <?= $form->field($model, 'email')->input('email'); ?>
-    <?= $form->field($model, 'password')->input('password'); ?>
+    <p>Please fill out the following fields to login:</p>
+
+    <?php $form = ActiveForm::begin([
+        'id' => 'login-form',
+        'layout' => 'horizontal',
+        'fieldConfig' => [
+            'template' => "{label}\n<div class=\"col-lg-3\">{input}</div>\n<div class=\"col-lg-8\">{error}</div>",
+            'labelOptions' => ['class' => 'col-lg-1 control-label'],
+        ],
+    ]); ?>
+
+    <?= $form->field($model, 'email')->textInput(['autofocus' => true]) ?>
+
+    <?= $form->field($model, 'password')->passwordInput() ?>
+
     <div class="form-group">
-        <?= Html::submitButton('Отправить', ['class' => 'btn btn-primary']) ?>
+        <div class="col-lg-offset-1 col-lg-11">
+            <?= Html::submitButton('Отправить', ['class' => 'btn btn-primary', 'name' => 'login-button']) ?>
+        </div>
     </div>
-    <?php
-    ActiveForm::end();
-    ?>
+
+    <?php ActiveForm::end(); ?>
+
+    <div class="col-lg-offset-1" style="color:#999;">
+        <?=Html::a('Регистрация', Url::to(['signup']))?>
+    </div>
+
 </div>
+
