@@ -26,7 +26,7 @@ class SiteController extends Controller
                 'class' => AccessControl::class,
                 'rules' => [
                     [
-                        'actions' => ['logout', 'contact', 'index', 'about'],
+                        'actions' => ['logout', 'contact', 'index', 'about', 'test-cache'],
                         'allow' => true,
                         'roles' => ['@'],
                     ],
@@ -181,12 +181,14 @@ class SiteController extends Controller
         var_dump($otherUsers);
     }
 
-    public function actionTest()
+    public function actionTestCache()
     {
         $activity = Activity::findOne(8);
-        $author = $activity->author_id;
-        var_dump($author);
-        die();
+        $activity->title = 'fdfgdj';
+//        $activity->start_date = time();
+//        $activity->end_date = time();
+        $activity->save();
+        return $this->render('test-cache', ['activity'=>$activity, 'errors'=>$activity->errors]);
     }
 
     /**
