@@ -2,6 +2,7 @@
 
 namespace app\controllers;
 
+use app\models\SignupForm;
 use Yii;
 use app\models\User;
 use app\models\UserSearch;
@@ -34,7 +35,7 @@ class UserController extends Controller
                     [
                         'actions' => ['index', 'create', 'update', 'view', 'delete'],
                         'allow' => true,
-                        'roles' => ['@', 'admin'],
+                        'roles' => ['@'],
                     ],
                 ],
             ],
@@ -76,10 +77,13 @@ class UserController extends Controller
      */
     public function actionCreate()
     {
-        $model = new User();
+        $model = new SignupForm();
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
+        if ($model->load(Yii::$app->request->post()) && $model->validate()) {
+            $user = $model->signup();
+            if (isset($user)) {
+                return $this->redirect(['view', 'id' => $user->id]);
+            }
         }
 
         return $this->render('create', [

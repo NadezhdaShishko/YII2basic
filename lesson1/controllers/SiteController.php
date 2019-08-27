@@ -183,11 +183,11 @@ class SiteController extends Controller
 
     public function actionTestCache()
     {
-        $activity = Activity::findOne(8);
-        $activity->title = 'fdfgdj';
-//        $activity->start_date = time();
-//        $activity->end_date = time();
-        $activity->save();
+        $activity = Activity::findOne(9);
+        $activity->title = 'fdfgdj111';
+        $activity->start_date = time();
+        $activity->end_date = time();
+        $activity->save(false);
         return $this->render('test-cache', ['activity'=>$activity, 'errors'=>$activity->errors]);
     }
 

@@ -55,7 +55,7 @@ class Activity extends \yii\db\ActiveRecord
         return [
             [['title', 'body', 'start_date', 'end_date', 'author_id'], 'required'],
             [['cycle', 'main'], 'boolean'],
-            [['author_id',], 'integer'],
+            [['author_id', 'created_at', 'updated_at',], 'integer'],
             [['end_date'], 'validateEndDate'],
             [['start_date', 'end_date'], 'date', 'format' => 'php:d.m.Y'],
             [['title', 'body'], 'string', 'max' => 255],
@@ -118,6 +118,13 @@ class Activity extends \yii\db\ActiveRecord
         }
     }
 
+    public function afterFind()
+    {
+        $this->start_date = Yii::$app->formatter->asDate($this->start_date, 'php:d.m.Y');
+        $this->end_date = Yii::$app->formatter->asDate($this->end_date, 'php:d.m.Y');
+        parent::afterFind();
+    }
+
     public function getUsers()
     {
         return $this->hasMany(User::class, ['id' => 'user_id'])
@@ -136,8 +143,5 @@ class Activity extends \yii\db\ActiveRecord
     {
         return $this->hasMany(Calendar::class, ['activity_id' => 'id']);
     }
-
-
-
 
 }

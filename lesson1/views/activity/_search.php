@@ -25,11 +25,9 @@ use yii\widgets\ActiveForm;
 
     <?= $form->field($model, 'end_date') ?>
 
-    <?php // echo $form->field($model, 'author_id') ?>
+    <?php  echo $form->field($model, 'cycle') ?>
 
-    <?php // echo $form->field($model, 'cycle') ?>
-
-    <?php // echo $form->field($model, 'main') ?>
+    <?php  echo $form->field($model, 'main') ?>
 
     <?php // echo $form->field($model, 'created_at') ?>
 

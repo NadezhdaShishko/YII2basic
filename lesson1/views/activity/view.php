@@ -46,7 +46,6 @@ $this->params['breadcrumbs'][] = $this->title;
                     return Yii::$app->formatter->asDatetime($model->end_date);
                 }
             ],
-//            'end_date:datetime',
             [
                 'label'=>'Повторяется',
                 'value'=>function($model){

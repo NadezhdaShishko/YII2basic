@@ -29,15 +29,20 @@ $this->params['breadcrumbs'][] = $this->title;
     <?= DetailView::widget([
         'model' => $model,
         'attributes' => [
-            'id',
+//            'id',
             'username',
-            'auth_key',
-            'password_hash',
-            'password_reset_token',
+//            'auth_key',
+//            'password_hash',
+//            'password_reset_token',
             'email:email',
-            'status',
-            'created_at',
-            'updated_at',
+//            'created_at:datetime',
+//            'updated_at:datetime',
+            [
+                'attribute'=>'status',
+                'value'=>function(\app\models\User $model){
+                    return \app\models\User::getStatuses()[$model->status];
+                }
+            ],
         ],
     ]) ?>
 
