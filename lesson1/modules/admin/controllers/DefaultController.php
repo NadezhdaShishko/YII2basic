@@ -2,6 +2,7 @@
 
 namespace app\modules\admin\controllers;
 
+use app\models\ContactForm;
 use app\modules\admin\models\LoginForm;
 use app\modules\admin\models\Activity;
 use app\modules\admin\models\Calendar;
@@ -26,7 +27,7 @@ class DefaultController extends Controller
                 'class' => AccessControl::class,
                 'rules' => [
                     [
-                        'actions' => ['logout', 'contact', 'index', 'about'],
+                        'actions' => ['logout', 'contact', 'index', 'about', 'test-cache'],
                         'allow' => true,
                         'roles' => ['admin'],
                     ],
@@ -74,68 +75,111 @@ class DefaultController extends Controller
     {
         return $this->render('index');
     }
+
+    public function actionAddAdmin() {
+        $user = \app\models\User::find()->where(['username' => 'admin'])->one();
+        if (empty($user)) {
+            $user = new User();
+            $user->username = 'admin';
+            $user->email = 'admin@admin.ru';
+            $user->setPassword('admin');
+            $user->generateAuthKey();
+            if ($user->save()) {
+                echo 'good';
+                $adminRole = Yii::$app->authManager->getRole('admin');
+                Yii::$app->authManager->assign($adminRole, $user->id);
+            } else {
+                var_dump($user->errors);
+            }
+        } else {
+            $adminRole = Yii::$app->authManager->getRole('admin');
+            Yii::$app->authManager->assign($adminRole, $user->id);
+            echo 'админ уже есть';
+        }
+    }
+
+    public function actionCreateActivity() {
+        $user = User::find()->where(['id'=>5])->one();
+
+        $activity = new \app\models\Activity();
+        $activity->author_id = $user->id;
+        $activity->title = 'test'.time();
+        $activity->body = 'body'.time();
+        $activity->start_date = time();
+        $activity->end_date = time()+24*3600;
+
+        if(!$activity->save()) {
+            var_dump($activity->errors);
+        }
+        die();
+    }
+
+    public function actionFillCalendar()
+    {
+        $users = User::find()->all();
+        foreach ($users as $user) {
+            $calendarRecord = new \app\models\Calendar();
+            $calendarRecord->user_id = $user->id;
+            $calendarRecord->activity_id = 9;
+            if ($calendarRecord->save() === false) {
+                var_dump($calendarRecord->id);
+                var_dump($calendarRecord->errors);
+            };
+        }
+    }
+
+    public function actionGetUsers()
+    {
+        $activity = Activity::findOne(8);
+        $users =[];
+
+        foreach ($activity->calendarRecords as $calendarRecord) {
+            $users[] = $calendarRecord->user;
+        }
+
+        var_dump($users);
+        $otherUsers = $activity->users();
+        var_dump($otherUsers);
+    }
+
+    public function actionTestCache()
+    {
+        $activity = Activity::findOne(9);
+        $activity->title = 'fdfgdj111';
+        $activity->start_date = time();
+        $activity->end_date = time();
+        $activity->save(false);
+        return $this->render('test-cache', ['activity'=>$activity, 'errors'=>$activity->errors]);
+    }
+
+
+    /**
+     * Displays contact page.
+     *
+     * @return Response|string
+     */
+    public function actionContact()
+    {
+        $model = new ContactForm();
+        if ($model->load(Yii::$app->request->post()) && $model->contact(Yii::$app->params['adminEmail'])) {
+            Yii::$app->session->setFlash('contactFormSubmitted');
+
+            return $this->refresh();
+        }
+        return $this->render('contact', [
+            'model' => $model,
+        ]);
+    }
+
+    /**
+     * Displays about page.
+     *
+     * @return string
+     */
+    public function actionAbout()
+    {
+        return $this->render('about');
+    }
 }
 
-//    /**
-//     * Login action.
-//     *
-//     * @return Response|string
-//     */
-//    public function actionLogin()
-//    {
-//        if (!Yii::$app->user->isGuest) {
-//
-//            return $this->redirect('/admin/default/index');
-////            return $this->goHome();
-//        }
-//
-//        $model = new LoginForm();
-//        /*
-//         * Если пришли post-данные, загружаем их в модель...
-//         */
-//        if ($model->load(Yii::$app->request->post()) && $model->login()) {
-//            return $this->redirect('/admin/default/index');
-////            return $this->goBack();
-//        }
-//
-//        $model->password = '';
-//        return $this->render('login', [
-//            'model' => $model,
-//        ]);
-//    }
-//
-//    public function actionSignup()
-//    {
-//        $model = new SignupForm();
-//
-//        if ($model->load(Yii::$app->request->post())) {
-//            if ($user = $model->signup()) {
-//                if (Yii::$app->getUser()->login($user)) {
-//                    return $this->redirect('/admin/default/index');
-////                    return $this->goHome();
-//                }
-//            }
-//        }
-//
-//        return $this->render('signup', [
-//            'model' => $model,
-//        ]);
-//    }
-//
-//    /**
-//     * Logout action.
-//     *
-//     * @return Response
-//     */
-//    public function actionLogout()
-//    {
-//        Yii::$app->user->logout();
-//
-//        return $this->redirect('/admin/auth/login');
-////        return $this->goHome();
-//    }
-//    public function actionLogout() {
-//        LoginForm::logout();
-//        return $this->redirect('/admin/auth/login');
-//    }
 

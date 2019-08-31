@@ -7,7 +7,7 @@ use yii\grid\GridView;
 /* @var $searchModel app\modules\admin\models\ActivitySearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
-$this->title = 'Activities';
+$this->title = 'Активности';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="activity-index">
@@ -15,7 +15,7 @@ $this->params['breadcrumbs'][] = $this->title;
     <h1><?= Html::encode($this->title) ?></h1>
 
     <p>
-        <?= Html::a('Create Activity', ['create'], ['class' => 'btn btn-success']) ?>
+        <?= Html::a('Добавить активность', ['create'], ['class' => 'btn btn-success']) ?>
     </p>
 
     <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
@@ -26,6 +26,19 @@ $this->params['breadcrumbs'][] = $this->title;
         'columns' => [
             ['class' => 'yii\grid\SerialColumn'],
             'id',
+            [
+                'attribute' => 'authorEmail',
+                'label'=>'Email',
+                'value' => function (\app\modules\admin\models\Activity $model) {
+                    return $model->author->email.' '.$model->author->id;
+                }
+            ],
+            [
+                'attribute' => 'username',
+                'value' => function (\app\modules\admin\models\Activity $model) {
+                    return $model->author->username;
+                }
+            ],
             'title',
             'body',
             [
@@ -60,20 +73,6 @@ $this->params['breadcrumbs'][] = $this->title;
                     return Yii::$app->formatter->asDate($model->end_date, 'php:d.m.Y');
                 }
             ],
-//            'end_date:datetime',
-//            [
-//                'attribute' => 'authorEmail',
-//                'value' => function (\app\modules\admin\models\Activity $model) {
-//                    return $model->author->email.' '.$model->author->id;
-//                }
-//            ],
-            [
-                'attribute' => 'username',
-                'value' => function (\app\modules\admin\models\Activity $model) {
-                    return $model->author->username;
-                }
-            ],
-//            'author_id',
             'cycle:boolean',
             'main:boolean',
             [

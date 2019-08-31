@@ -8,6 +8,7 @@
 namespace app\assets;
 
 use yii\web\AssetBundle;
+use yii\web\View;
 
 /**
  * Main application asset bundle.
@@ -22,10 +23,22 @@ class AppAsset extends AssetBundle
     public $css = [
         'css/site.css',
     ];
-    public $js = [
-    ];
+//    public $jsOptions = ['position' => View::POS_HEAD];
+//    public $js = [
+//        'js/new.js'
+//    ];
     public $depends = [
         'yii\web\YiiAsset',
         'yii\bootstrap\BootstrapAsset',
     ];
+
+//    public function init()
+//    {
+//        parent::init();
+//        $isNeedCss = true;
+//
+//        if (!$isNeedCss) {
+//            $this->css[] = [];
+//        }
+//    }
 }

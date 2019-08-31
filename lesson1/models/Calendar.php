@@ -56,11 +56,11 @@ class Calendar extends \yii\db\ActiveRecord
     public function attributeLabels()
     {
         return [
-            'id' => 'ID',
-            'user_id' => 'User ID',
-            'activity_id' => 'Activity ID',
-            'created_at' => 'Created At',
-            'updated_at' => 'Updated At',
+            'id' => 'ID записи',
+            'user_id' => 'ID пользователя',
+            'activity_id' => 'ID активности',
+            'created_at' => 'Дата создания записи',
+            'updated_at' => 'Дата изменения записи',
         ];
     }
 

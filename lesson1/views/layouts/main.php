@@ -7,6 +7,7 @@ use app\widgets\Alert;
 use yii\helpers\Html;
 use yii\bootstrap\Nav;
 use yii\bootstrap\NavBar;
+use yii\helpers\Url;
 use yii\widgets\Breadcrumbs;
 use app\assets\AppAsset;
 
@@ -20,7 +21,7 @@ AppAsset::register($this);
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <?php $this->registerCsrfMetaTags() ?>
-    <title><?= Html::encode($this->title) ?></title>
+    <title><?= Html::encode($this->title) ?> | Моя страница </title>
     <?php $this->head() ?>
 </head>
 <body>
@@ -29,30 +30,32 @@ AppAsset::register($this);
 <div class="wrap">
     <?php
     NavBar::begin([
-        'brandLabel' => Yii::$app->name,
-        'brandUrl' => Yii::$app->homeUrl,
+        'brandLabel' => 'Моя страница',
+        'brandUrl' => Url::to(['/calendar/index']),
         'options' => [
             'class' => 'navbar-inverse navbar-fixed-top',
         ],
     ]);
 
     $menuItems = [
+        ['label' => 'Календарь', 'url' => ['/calendar/index']],
         ['label' => 'Мои активности', 'url' => ['/activity/index']],
-        ['label' => 'Home', 'url' => ['/site/index']],
-        ['label' => 'About', 'url' => ['/site/about']],
-        ['label' => 'Hello-World', 'url' => ['/hello/world']],
-        ['label' => 'Contact', 'url' => ['/site/contact']],
+        ['label' => 'Данные пользователя', 'url' => ['/user/index']],
+
     ];
 
+    if (Yii::$app->user->can('admin')) {
+        $menuItems[] = ['label' => 'Админка', 'url' => ['/admin/calendar/index']];
+    }
 
     if (Yii::$app->user->isGuest) {
-        $menuItems[] = ['label' => 'Signup', 'url' => ['/site/signup']];
-        $menuItems[] = ['label' => 'Login', 'url' => ['/site/login']];
+        $menuItems[] = ['label' => 'Зарегистрироваться', 'url' => ['/site/signup']];
+        $menuItems[] = ['label' => 'Войти', 'url' => ['/site/login']];
     } else {
         $menuItems[] = '<li>'
             . Html::beginForm(['/site/logout'], 'post')
             . Html::submitButton(
-                'Logout (' . Yii::$app->user->identity->username . ')',
+                'Выйти (' . Yii::$app->user->identity->username . ')',
                 ['class' => 'btn btn-link logout']
             )
             . Html::endForm()
@@ -72,10 +75,9 @@ AppAsset::register($this);
             'links' => isset($this->params['breadcrumbs']) ? $this->params['breadcrumbs'] : [],
         ]) ?>
         <?= Alert::widget() ?>
-        <code>
-            <?php echo \Yii::$app->sessionComponent->getCurrentPage() ?>
-        </code>
-
+<!--        <code>-->
+<!--            --><?php //echo \Yii::$app->sessionComponent->getCurrentPage() ?>
+<!--        </code>-->
         <?= $content ?>
     </div>
 </div>

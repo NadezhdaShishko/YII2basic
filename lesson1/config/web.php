@@ -8,6 +8,9 @@ $config = [
     'language'=>'ru',
     'basePath' => dirname(__DIR__),
     'bootstrap' => ['log'],
+    'defaultRoute' => 'calendar/index',
+//    'catchAll' => ['site/about'],
+
     'aliases' => [
         '@bower' => '@vendor/bower-asset',
         '@npm'   => '@vendor/npm-asset',
@@ -30,16 +33,19 @@ $config = [
             'cookieValidationKey' => 'KMOhr1QvSh880DrNpNETvXF409nXRpzG',
         ],
         'cache' => [
-            'class' => \yii\caching\MemCache::class,
-            'useMemcached' => true,
-            'servers' => [
-                [
-                    'host' => 'localhost',
-                    'port' => 11211,
-                    'persistent' => false,
-                ],
-            ],
+            'class' => 'yii\caching\FileCache',
         ],
+//        'cache' => [
+//            'class' => \yii\caching\MemCache::class,
+//            'useMemcached' => true,
+//            'servers' => [
+//                [
+//                    'host' => '127.0.0.1',
+//                    'port' => 11211,
+//                    'persistent' => false,
+//                ],
+//            ],
+//        ],
         'user' => [
             'identityClass' => 'app\models\User',
             'enableAutoLogin' => true,
@@ -71,6 +77,15 @@ $config = [
             'enablePrettyUrl' => true,
             'showScriptName' => false,
             'rules' => [
+                '<action:(about|contact)>' => 'admin/default/<action>',
+                '<action:(login|logout|signup)>' => 'site/<action>',
+                '<controller:(catalog|activity|user)>/<id:\d+>/<action:(create|update|delete)>' => '<controller>/<action>',
+                '<controller:(catalog|activity|user)>/<id:\d+>' => '<controller>/view',
+                '<controller:(catalog|activity|user)>s' => '<controller>/index',
+                'admin/<controller:(catalog|activity|user)>/<id:\d+>/<action:(create|update|delete)>' => 'admin/<controller>/<action>',
+                'admin/<controller:(catalog|activity|user)>/<id:\d+>' => 'admin/<controller>/view',
+                'admin/<controller:(catalog|activity|user)>s' => 'admin/<controller>/index',
+                '/' => 'calendar/index',
             ],
         ],
     ],

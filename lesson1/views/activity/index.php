@@ -7,7 +7,7 @@ use yii\grid\GridView;
 /* @var $searchModel app\models\ActivitySearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
-$this->title = 'Activities';
+$this->title = 'Активности';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="activity-index">
@@ -15,7 +15,7 @@ $this->params['breadcrumbs'][] = $this->title;
     <h1><?= Html::encode($this->title) ?></h1>
 
     <p>
-        <?= Html::a('Create Activity', ['create'], ['class' => 'btn btn-success']) ?>
+        <?= Html::a('Добавить активность', ['create'], ['class' => 'btn btn-success']) ?>
     </p>
 
     <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
@@ -25,11 +25,14 @@ $this->params['breadcrumbs'][] = $this->title;
         'filterModel' => $searchModel,
         'columns' => [
             ['class' => 'yii\grid\SerialColumn'],
-            'id',
+            [
+                'attribute'=>'author.email',
+                'label'=>'Email',
+            ],
             'title',
             'body',
             [
-                'attribute' => 'start_date',
+                'attribute'=>'start_date',
                 'filter' => \kartik\date\DatePicker::widget([
                     'model' => $searchModel,
                     'attribute' => 'start_date',
@@ -45,7 +48,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 }
             ],
             [
-                'attribute' => 'end_date',
+                'attribute'=>'end_date',
                 'filter' => \kartik\date\DatePicker::widget([
                     'model' => $searchModel,
                     'attribute' => 'end_date',
@@ -60,21 +63,12 @@ $this->params['breadcrumbs'][] = $this->title;
                     return Yii::$app->formatter->asDate($model->end_date, 'php:d.m.Y');
                 }
             ],
-//            'end_date:datetime',
-//            [
-//                'attribute' => 'authorEmail',
-//                'value' => function (\app\models\Activity $model) {
-//                    return $model->author->email.' '.$model->author->id;
-//                }
-//            ],
             [
-                'attribute' => 'username',
-                'value' => function (\app\models\Activity $model) {
-                    return $model->author->username;
+                'attribute'=>'cycle',
+                'value'=>function($model){
+                    return Yii::$app->formatter->asBoolean($model->cycle);
                 }
             ],
-//            'author_id',
-            'cycle:boolean',
             'main:boolean',
             [
                 'attribute' => 'created_at',
