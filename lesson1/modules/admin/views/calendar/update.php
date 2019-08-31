@@ -3,7 +3,7 @@
 use yii\helpers\Html;
 
 /* @var $this yii\web\View */
-/* @var $model app\models\Calendar */
+/* @var $model app\modules\admin\models\Calendar */
 
 $this->title = 'Изменить запись: ' . $model->id;
 $this->params['breadcrumbs'][] = ['label' => 'Календарь', 'url' => ['index']];

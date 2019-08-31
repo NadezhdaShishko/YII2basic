@@ -18,7 +18,7 @@ class UserSearch extends User
     {
         return [
             [['created_at', 'updated_at'], 'integer'],
-//            [['username', 'auth_key', 'password_hash', 'password_reset_token', 'email', 'status'], 'safe'],
+            [['username', 'auth_key', 'password_hash', 'password_reset_token', 'email', 'status'], 'safe'],
             [['created_at', 'updated_at'], 'date', 'format' => 'php:d.m.Y'],
         ];
     }
@@ -45,7 +45,8 @@ class UserSearch extends User
 
         // add conditions that should always apply here
 
-        $dataProvider = new ActiveDataProvider([
+        $dataProvider = new ActiveDataProvider (
+            [
             'query' => $query,
         ]);
 

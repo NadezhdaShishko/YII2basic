@@ -21,7 +21,7 @@ AppAsset::register($this);
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <?php $this->registerCsrfMetaTags() ?>
-    <title><?= Html::encode($this->title) ?> | Панель управления </title>
+    <title><?= Html::encode($this->title) ?> | Панель админа </title>
     <?php $this->head() ?>
 </head>
 <body>
@@ -30,7 +30,7 @@ AppAsset::register($this);
 <div class="wrap">
     <?php
     NavBar::begin([
-        'brandLabel' => 'Панель управления',
+        'brandLabel' => 'Панель админа',
         'brandUrl' => Url::to(['/admin/default/index']),
         'options' => [
             'class' => 'navbar-inverse navbar-fixed-top',
@@ -38,25 +38,25 @@ AppAsset::register($this);
     ]);
 
     $menuItems = [
+        ['label' => 'Календарь', 'url' => ['/admin/calendar/index']],
         ['label' => 'Активности', 'url' => ['/admin/activity/index']],
         ['label' => 'Пользователи', 'url' => ['/admin/user/index']],
-        ['label' => 'Календарь', 'url' => ['/admin/calendar/index']],
+        ['label' => 'About', 'url' => ['/admin/default/about']],
+        ['label' => 'Contact', 'url' => ['/admin/default/contact']],
     ];
-
 
     if (Yii::$app->user->isGuest) {
         $menuItems[] = ['label' => 'Signup', 'url' => ['/admin/auth/signup']];
         $menuItems[] = ['label' => 'Login', 'url' => ['/admin/auth/login']];
     } else {
-        $menuItems[] = ['label' => 'Выйти', 'url' => ['/admin/auth/logout']];
-//            '<li>'
-//            . Html::beginForm(['/site/logout'], 'post')
-//            . Html::submitButton(
-//                'Logout (' . Yii::$app->user->identity->username . ')',
-//                ['class' => 'btn btn-link logout']
-//            )
-//            . Html::endForm()
-//            . '</li>';
+        $menuItems[] = '<li>'
+            . Html::beginForm(['/site/logout'], 'post')
+            . Html::submitButton(
+                'Выйти (' . Yii::$app->user->identity->username . ')',
+                ['class' => 'btn btn-link logout']
+            )
+            . Html::endForm()
+            . '</li>';
     }
 
     echo Nav::widget([
@@ -73,7 +73,7 @@ AppAsset::register($this);
         ]) ?>
         <?= Alert::widget() ?>
         <code>
-            <?php echo \Yii::$app->sessionComponent->getCurrentPage() ?>
+            <?php echo \Yii::$app->sessionComponent->getCurrentPage() ?> <br>
         </code>
 
         <?= $content ?>

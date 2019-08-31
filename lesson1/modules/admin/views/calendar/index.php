@@ -4,13 +4,12 @@ use yii\helpers\Html;
 use yii\grid\GridView;
 
 /* @var $this yii\web\View */
-/* @var $searchModel app\models\CalendarSearch */
+/* @var $searchModel app\modules\admin\models\CalendarSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
 $this->title = 'Календарь';
 $this->params['breadcrumbs'][] = $this->title;
 echo date(DATE_RSS);
-\app\assets\CalendarAsset::register($this);
 ?>
 <div class="calendar-index">
     <h1><?= Html::encode($this->title) ?></h1>
@@ -22,8 +21,8 @@ echo date(DATE_RSS);
     <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
 
     <?= edofre\fullcalendar\Fullcalendar::widget([
-            'events' => \yii\helpers\Url::to(['calendar/get-records', 'id' => uniqid()]),
-        ]);
+        'events' => \yii\helpers\Url::to(['calendar/get-records', 'id' => uniqid()]),
+    ]);
     ?>
 
 </div>

@@ -15,23 +15,23 @@ use yii\widgets\ActiveForm;
         'method' => 'get',
     ]); ?>
 
-    <?= $form->field($model, 'id') ?>
+    <? echo $form->field($model, 'id') ?>
 
-    <?= $form->field($model, 'username') ?>
+    <? echo $form->field($model, 'username') ?>
 
-<!--    --><?//= $form->field($model, 'auth_key') ?>
-<!---->
-<!--    --><?//= $form->field($model, 'password_hash') ?>
-<!---->
-<!--    --><?//= $form->field($model, 'password_reset_token') ?>
+    <? $form->field($model, 'auth_key') ?>
 
-    <?php  echo $form->field($model, 'email') ?>
+    <? $form->field($model, 'password_hash') ?>
 
-    <?php // echo $form->field($model, 'status') ?>
+    <? $form->field($model, 'password_reset_token') ?>
 
-    <?php // echo $form->field($model, 'created_at') ?>
+    <? echo  $form->field($model, 'email') ?>
 
-    <?php // echo $form->field($model, 'updated_at') ?>
+    <? $form->field($model, 'status') ?>
+
+    <? $form->field($model, 'created_at') ?>
+
+    <? $form->field($model, 'updated_at') ?>
 
     <div class="form-group">
         <?= Html::submitButton('Search', ['class' => 'btn btn-primary']) ?>

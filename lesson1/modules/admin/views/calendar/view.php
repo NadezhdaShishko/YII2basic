@@ -4,7 +4,7 @@ use yii\helpers\Html;
 use yii\widgets\DetailView;
 
 /* @var $this yii\web\View */
-/* @var $model app\models\Calendar */
+/* @var $model app\modules\admin\models\Calendar */
 
 $this->title = $model->id;
 $this->params['breadcrumbs'][] = ['label' => 'Календарь', 'url' => ['index']];

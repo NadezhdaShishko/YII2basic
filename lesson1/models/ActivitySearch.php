@@ -58,7 +58,6 @@ class ActivitySearch extends Activity
             'sort' => [
                 'defaultOrder' => [
                     'created_at' => SORT_DESC,
-                    'updated_at' => SORT_DESC,
                 ],
             ],
         ]);

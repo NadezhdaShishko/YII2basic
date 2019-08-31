@@ -26,7 +26,7 @@ use yii\widgets\ActiveForm;
             'todayHighlight' => true,
             'format' => 'dd.mm.yyyy',
         ]
-    ]); ?>
+    ])->label('Дата начала активности'); ?>
 
     <?= $form->field($model, 'end_date')->widget(\kartik\date\DatePicker::class, [
         'options' => [
@@ -38,14 +38,17 @@ use yii\widgets\ActiveForm;
             'todayHighlight' => true,
             'format' => 'dd.mm.yyyy',
         ]
-    ]); ?>
+    ])->label('Дата окончания активности'); ?>
+
+    <?= $form->field($model, 'author_id')
+        ->textInput(['value' => Yii::$app->user->identity->id,  'readonly' => true]) ?>
 
     <?= $form->field($model, 'cycle')->checkbox() ?>
 
     <?= $form->field($model, 'main')->checkbox() ?>
 
     <div class="form-group">
-        <?= Html::submitButton('Save', ['class' => 'btn btn-success']) ?>
+        <?= Html::submitButton('Сохранить', ['class' => 'btn btn-success']) ?>
     </div>
 
     <?php ActiveForm::end(); ?>

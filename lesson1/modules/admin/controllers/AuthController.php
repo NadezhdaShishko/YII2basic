@@ -27,7 +27,6 @@ class AuthController extends Controller
         if (!Yii::$app->user->isGuest) {
 
             return $this->redirect('/admin/default/index');
-//            return $this->goHome();
         }
 
         $model = new LoginForm();
@@ -35,8 +34,7 @@ class AuthController extends Controller
          * Если пришли post-данные, загружаем их в модель...
          */
         if ($model->load(Yii::$app->request->post()) && $model->login()) {
-//            return $this->redirect('/admin/default/index');
-            return $this->goBack();
+            return $this->redirect('/admin/default/index');
         }
 
         $model->password = '';
@@ -53,7 +51,6 @@ class AuthController extends Controller
             if ($user = $model->signup()) {
                 if (Yii::$app->getUser()->login($user)) {
                     return $this->redirect('/admin/default/index');
-//                    return $this->goHome();
                 }
             }
         }
@@ -73,6 +70,5 @@ class AuthController extends Controller
         Yii::$app->user->logout();
 
         return $this->redirect('/admin/default/index');
-//        return $this->goHome();
     }
 }

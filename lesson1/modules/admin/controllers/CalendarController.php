@@ -1,17 +1,14 @@
 <?php
 
-namespace app\controllers;
+namespace app\modules\admin\controllers;
 
 use edofre\fullcalendar\models\Event;
 use Yii;
-use app\models\Calendar;
-use app\models\CalendarSearch;
-use yii\helpers\Url;
+use app\modules\admin\models\Calendar;
+use app\modules\admin\models\CalendarSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
-use yii\db\ActiveRecord;
-use app\models\Activity;
 
 /**
  * CalendarController implements the CRUD actions for Calendar model.
@@ -62,10 +59,8 @@ class CalendarController extends Controller
      */
     public function actionCreate()
     {
-        Yii::$app->user->identity->id;
         $model = new Calendar();
 
-        $user = Yii::$app->user->identity->id;
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             return $this->redirect(['view', 'id' => $model->id]);
         }
@@ -118,8 +113,7 @@ class CalendarController extends Controller
      */
     protected function findModel($id)
     {
-        $model = Calendar::find()->where(['id' => $id, 'user_id' => Yii::$app->user->identity->id])->one();
-        if (isset($model)) {
+        if (($model = Calendar::findOne($id)) !== null) {
             return $model;
         }
 
@@ -139,7 +133,7 @@ class CalendarController extends Controller
         \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
         $calendarRecordsQuery = Calendar::find()
             ->joinWith('activity')
-            ->where(['user_id'=>Yii::$app->user->identity->id])
+//            ->where(['user_id'=>Yii::$app->user->identity->id])
             ->andWhere('activity.start_date >= :start_date', [':start_date' => $start])
             ->andWhere('activity.end_date <= :end_date', [':end_date' => $end]);
         $records = [];

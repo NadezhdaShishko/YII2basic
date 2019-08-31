@@ -56,7 +56,11 @@ class ActivitySearch extends Activity
                 'pageSize' => 5,
             ],
             'sort' => [
-                'defaultOrder' => ['created_at' => SORT_DESC],
+                'defaultOrder' => [
+                    'created_at' => SORT_DESC,
+                    'id' => SORT_DESC
+                ],
+
             ],
         ]);
 

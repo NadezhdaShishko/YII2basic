@@ -14,26 +14,35 @@ use yii\base\Model;
  */
 class LoginForm extends Model {
 
-    public $email;
+    public $username;
     public $password;
+    public $rememberMe = true;
 
     private $_user = false;
 
     public function rules() {
         return [
             // удалим случайные пробелы для двух полей
-            [['email', 'password'], 'trim'],
+            [['password'], 'trim'],
             // email и пароль обязательны для заполнения
             [
-                ['email', 'password'],
+                ['username', 'password'],
                 'required',
                 'message' => 'Это поле обязательно для заполнения'
             ],
-            // поле email должно быть адресом почты
-            ['email', 'email'],
-            // пароль не может быть короче 12 символов
-            [['password'], 'string', 'min' => 12],
+            ['rememberMe', 'boolean'],
+            // password is validated by validatePassword()
             ['password', 'validatePassword'],
+            [['password'], 'string', 'min' => 5],
+        ];
+    }
+
+    public function attributeLabels()
+    {
+        return [
+            'username' => 'Имя',
+            'password' => 'Пароль',
+            'rememberMe' => 'Запомнить меня'
         ];
     }
 
@@ -50,16 +59,9 @@ class LoginForm extends Model {
             $user = $this->getUser();
 
             if (!$user || !$user->validatePassword($this->password)) {
-                $this->addError($attribute, 'Incorrect username or password.');
+                $this->addError($attribute, 'Неверное имя пользователя или пароль.');
             }
         }
-    }
-
-    public function attributeLabels() {
-        return [
-            'email' => 'E-mail',
-            'password' => 'Пароль',
-        ];
     }
 
     /**
@@ -69,7 +71,7 @@ class LoginForm extends Model {
     public function login()
     {
         if ($this->validate()) {
-            return Yii::$app->user->login($this->getUser());
+            return Yii::$app->user->login($this->getUser(), $this->rememberMe ? 3600*24*30 : 0);
         }
         return false;
     }
@@ -82,18 +84,8 @@ class LoginForm extends Model {
     public function getUser()
     {
         if ($this->_user === false) {
-            $this->_user = User::findByUsername($this->email);
+            $this->_user = User::findByUsername($this->username);
         }
         return $this->_user;
     }
-
-//    public static function login() {
-//        $_SESSION['auth_site_admin'] = true;
-//    }
-//
-//    public static function logout() {
-//        if (isset($_SESSION['auth_site_admin'])) {
-//            unset($_SESSION['auth_site_admin']);
-//        }
-//    }
 }

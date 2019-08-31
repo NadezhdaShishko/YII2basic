@@ -41,21 +41,21 @@ AppAsset::register($this);
         ['label' => 'Календарь', 'url' => ['/calendar/index']],
         ['label' => 'Мои активности', 'url' => ['/activity/index']],
         ['label' => 'Данные пользователя', 'url' => ['/user/index']],
-//        ['label' => 'Home', 'url' => ['/site/index']],
-//        ['label' => 'About', 'url' => ['/site/about']],
-//        ['label' => 'Hello-World', 'url' => ['/hello/world']],
-//        ['label' => 'Contact', 'url' => ['/site/contact']],
+
     ];
 
+    if (Yii::$app->user->can('admin')) {
+        $menuItems[] = ['label' => 'Админка', 'url' => ['/admin/calendar/index']];
+    }
 
     if (Yii::$app->user->isGuest) {
-        $menuItems[] = ['label' => 'Signup', 'url' => ['/site/signup']];
-        $menuItems[] = ['label' => 'Login', 'url' => ['/site/login']];
+        $menuItems[] = ['label' => 'Зарегистрироваться', 'url' => ['/site/signup']];
+        $menuItems[] = ['label' => 'Войти', 'url' => ['/site/login']];
     } else {
         $menuItems[] = '<li>'
             . Html::beginForm(['/site/logout'], 'post')
             . Html::submitButton(
-                'Logout (' . Yii::$app->user->identity->username . ')',
+                'Выйти (' . Yii::$app->user->identity->username . ')',
                 ['class' => 'btn btn-link logout']
             )
             . Html::endForm()
@@ -78,7 +78,6 @@ AppAsset::register($this);
 <!--        <code>-->
 <!--            --><?php //echo \Yii::$app->sessionComponent->getCurrentPage() ?>
 <!--        </code>-->
-
         <?= $content ?>
     </div>
 </div>
